@@ -25,10 +25,11 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        float moveForward = Input.GetAxis("Vertical");
+        float moveSideways = Input.GetAxis("Horizontal");
 
-        this.transform.position += new Vector3(moveHorizontal, 0, moveVertical) * movementSpeed;
+        this.transform.position += this.transform.forward * moveForward * movementSpeed;
+        this.transform.position += this.transform.right * moveSideways * movementSpeed;
     }
 
     private void RotatePlayer()

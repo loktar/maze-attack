@@ -20,5 +20,6 @@ public class Camera : MonoBehaviour
         float halfPlayerHeight = playerHeight / 2f;
 
         this.transform.position = playerPosition + new Vector3(0, halfPlayerHeight, 0);
+        this.transform.rotation = player.transform.rotation;
     }
 }
