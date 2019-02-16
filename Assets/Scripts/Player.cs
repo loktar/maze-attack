@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 1;
+    public float movementSpeed = 10;
+    public float rotationSpeed = 10;
 
     private Rigidbody rb;
 
@@ -17,12 +19,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        MovePlayer();
+        RotatePlayer();
+    }
+
+    private void MovePlayer()
+    {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        this.transform.position += new Vector3(moveHorizontal, 0, moveVertical) * movementSpeed;
+    }
 
-        //rb.velocity = new Vector3(-moveHorizontal * 0.1f, 0.0f, -moveVertical * 0.1f);
-        rb.AddForce(movement * speed);
+    private void RotatePlayer()
+    {
+        float rotateHorizontal = Input.GetAxis("Rotate Player");
+        Debug.Log("Rotate horizontal: " + rotateHorizontal);
+
+        this.transform.eulerAngles += new Vector3(0, rotateHorizontal, 0) * rotationSpeed;
     }
 }
