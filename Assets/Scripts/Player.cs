@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
     private void RotatePlayer()
     {
         float rotateHorizontal = Input.GetAxis("Rotate Player");
-        Debug.Log("Rotate horizontal: " + rotateHorizontal);
 
         this.transform.eulerAngles += new Vector3(0, rotateHorizontal, 0) * rotationSpeed;
     }
