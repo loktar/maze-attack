@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Demon : MonoBehaviour
 {
-    public GameObject deathPanel;
-    public GameObject[] pathWaypoints;
     public float movementSpeed;
+    public int startingWaypointIndex = 0;
+    public GameObject[] pathWaypoints;
+    public GameObject deathPanel;
 
     private int targetIndex;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.position = pathWaypoints[0].transform.position;
-        this.targetIndex = 1;
+        this.transform.position = pathWaypoints[startingWaypointIndex].transform.position;
+        this.targetIndex = startingWaypointIndex + 1;
     }
 
     // Update is called once per frame
