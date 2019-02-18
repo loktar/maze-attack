@@ -6,7 +6,7 @@ public class Demon : MonoBehaviour
 {
     public float movementSpeed;
     public int startingWaypointIndex = 0;
-    public GameObject[] pathWaypoints;
+    public DemonWaypoints demonWaypoints;
     public GameObject deathPanel;
 
     private int targetIndex;
@@ -14,14 +14,14 @@ public class Demon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.position = pathWaypoints[startingWaypointIndex].transform.position;
+        this.transform.position = demonWaypoints.waypoints[startingWaypointIndex].transform.position;
         this.targetIndex = startingWaypointIndex + 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetPosition = pathWaypoints[targetIndex].transform.position;
+        Vector3 targetPosition = demonWaypoints.waypoints[targetIndex].transform.position;
 
         MoveTowardPosition(targetPosition);
 
@@ -40,7 +40,7 @@ public class Demon : MonoBehaviour
     private void FindNextTargetWaypoint(Vector3 targetPosition)
     {
         targetIndex++;
-        if (targetIndex >= pathWaypoints.Length)
+        if (targetIndex >= demonWaypoints.waypoints.Length)
         {
             targetIndex = 0;
         }
