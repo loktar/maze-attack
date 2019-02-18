@@ -28,14 +28,14 @@ public class Player : MonoBehaviour
         float moveForward = Input.GetAxis("Vertical");
         float moveSideways = Input.GetAxis("Horizontal");
 
-        this.transform.position += this.transform.forward * moveForward * movementSpeed;
-        this.transform.position += this.transform.right * moveSideways * movementSpeed;
+        this.transform.position += this.transform.forward * moveForward * movementSpeed * Time.deltaTime;
+        this.transform.position += this.transform.right * moveSideways * movementSpeed * Time.deltaTime;
     }
 
     private void RotatePlayer()
     {
         float rotateHorizontal = Input.GetAxis("Rotate Player");
 
-        this.transform.eulerAngles += new Vector3(0, rotateHorizontal, 0) * rotationSpeed;
+        this.transform.eulerAngles += new Vector3(0, rotateHorizontal, 0) * rotationSpeed * Time.deltaTime;
     }
 }
