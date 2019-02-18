@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
+  rotationSpeed: 5
   startingWaypointIndex: 0
   demonWaypoints: {fileID: 0}
   deathPanel: {fileID: 0}

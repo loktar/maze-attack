@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Demon : MonoBehaviour
 {
-    public float movementSpeed;
+    public float movementSpeed = 1;
+    public float rotationSpeed = 1;
     public int startingWaypointIndex = 0;
     public DemonWaypoints demonWaypoints;
     public GameObject deathPanel;
@@ -24,11 +26,21 @@ public class Demon : MonoBehaviour
         Vector3 targetPosition = demonWaypoints.waypoints[targetIndex].transform.position;
 
         MoveTowardPosition(targetPosition);
+        FaceTowardPosition(targetPosition);
 
         if (transform.position == targetPosition)
         {
             FindNextTargetWaypoint(targetPosition);
         }
+    }
+
+    private void FaceTowardPosition(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+        //rotate us over time according to speed until we are in the required rotation
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
     private void MoveTowardPosition(Vector3 targetPosition)
