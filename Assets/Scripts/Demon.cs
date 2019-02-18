@@ -11,27 +11,54 @@ public class Demon : MonoBehaviour
     public DemonWaypoints demonWaypoints;
     public GameObject deathPanel;
 
-    private int targetIndex;
+    private Waypoint targetWaypoint;
+    private WaypointFinder waypointFinder;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.position = demonWaypoints.waypoints[startingWaypointIndex].transform.position;
-        this.targetIndex = startingWaypointIndex + 1;
+        waypointFinder = GetComponent<WaypointFinder>();
+
+        MoveInstantlyToWaypoint(demonWaypoints.waypoints[startingWaypointIndex]);
+        TargetRandomVisibleWaypoint();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetPosition = demonWaypoints.waypoints[targetIndex].transform.position;
+        Vector3 targetPosition = targetWaypoint.transform.position;
 
         MoveTowardPosition(targetPosition);
         FaceTowardPosition(targetPosition);
 
         if (transform.position == targetPosition)
         {
-            FindNextTargetWaypoint(targetPosition);
+            TargetRandomVisibleWaypoint();
         }
+    }
+
+    private void MoveInstantlyToWaypoint(GameObject waypoint)
+    {
+        this.transform.position = waypoint.transform.position;
+    }
+
+    private void TargetRandomVisibleWaypoint()
+    {
+        targetWaypoint = FindRandomVisibleWaypoint() ?? targetWaypoint;
+    }
+
+    private Waypoint FindRandomVisibleWaypoint()
+    {
+        Waypoint[] visibleWaypoints = waypointFinder.FindVisibleWaypoints();
+        Waypoint[] potentialTargets = Array.FindAll(visibleWaypoints, w => w.transform.position != this.transform.position);
+
+        if (potentialTargets.Length > 0)
+        {
+            int randomIndex = new System.Random().Next(0, potentialTargets.Length);
+            return potentialTargets[randomIndex];
+        }
+
+        return null;
     }
 
     private void FaceTowardPosition(Vector3 targetPosition)
@@ -47,15 +74,6 @@ public class Demon : MonoBehaviour
     {
         float step = movementSpeed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
-    }
-
-    private void FindNextTargetWaypoint(Vector3 targetPosition)
-    {
-        targetIndex++;
-        if (targetIndex >= demonWaypoints.waypoints.Length)
-        {
-            targetIndex = 0;
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
